@@ -19,17 +19,17 @@ The end‑to‑end pipeline for a single game:
 
 ```mermaid
 flowchart TD
-  A[design_game_task\nGame Designer] --> B[analyze_design_task\nGame Developer]
-  B --> C[implement_game_task\nGame Developer]
-  C --> D[create_requirements_task\nGame Developer]
-  C --> E[linter_code_task\nTest Engineer]
-  C --> F[evaluate_code_quality_task\nTest Engineer]
-  C --> G[evaluate_design_quality_task\nTest Engineer]
-  C --> H[evaluate_design_compliance_task\nTest Engineer]
-  E & F & G & H --> I[compile_evaluation_report_task\nTest Engineer]
-  I --> J[fix_game_issues_task\nGame Developer]
+  A[design_game_task / Game Designer] --> B[analyze_design_task / Game Developer]
+  B --> C[implement_game_task / Game Developer]
+  C --> D[create_requirements_task / Game Developer]
+  C --> E[linter_code_task / Test Engineer]
+  C --> F[evaluate_code_quality_task / Test Engineer]
+  C --> G[evaluate_design_quality_task / Test Engineer]
+  C --> H[evaluate_design_compliance_task / Test Engineer]
+  E & F & G & H --> I[compile_evaluation_report_task / Test Engineer]
+  I --> J[fix_game_issues_task / Game Developer]
   J --> E & F & G & H
-  I --> K[publish_game_task\nGame Publisher]
+  I --> K[publish_game_task / Game Publisher]
 ```
 
 Internally, `run()` wraps this flow with a feedback loop:
@@ -44,11 +44,14 @@ Agents are defined in `src/agentforce_interactive/config/agents.yaml` and wired 
 
 ```mermaid
 flowchart LR
-  GD[Game Designer] -->|writes| game_design.md
-  DEV[Game Developer] -->|reads/writes| game.py & requirements.txt
-  TE[Test Engineer] -->|reads| game_design.md & game.py
-  TE -->|runs tools| reports
-  PUB[Game Publisher] -->|writes| per‑game README.md
+  GD[Game Designer] --> GD_DESIGN[game_design.md]
+  DEV[Game Developer] --> DEV_CODE[game.py]
+  DEV --> DEV_REQ[requirements.txt]
+  TE[Test Engineer] --> TE_READS[Reads design & code]
+  TE --> TE_TOOLS[Runs evaluation tools]
+  TE --> TE_REPORTS[Writes quality & compliance reports]
+  PUB[Game Publisher] --> PUB_READS[Reads design & reports]
+  PUB --> PUB_README[Writes game README.md]
 ```
 
 **Game Designer (`game_designer`)**
