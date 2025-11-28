@@ -1,6 +1,6 @@
 # AgentforceInteractive – Multi‑Agent Game Studio
 
-AgentforceInteractive is a multi‑agent “game studio” built on [CrewAI](https://crewai.com). Given a game concept, a crew of agents:
+AgentForce Interactive is a multi‑agent game studio built using [CrewAI](https://crewai.com). Given a game concept, a crew of agents:
 
 - Designs the game.
 - Implements a playable `game.py` using Pygame.
