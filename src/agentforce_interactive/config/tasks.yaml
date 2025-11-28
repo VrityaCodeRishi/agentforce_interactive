@@ -1,0 +1,741 @@
+design_game_task:
+  description: >
+    Design a simple Python-based video game based on the game concept: {game_concept}
+    Create a comprehensive game design document that includes:
+    - Game genre and type
+    - Core game mechanics and rules
+    - Win/lose conditions
+    - Player controls and input methods
+    - Game features and objectives
+    - Recommended Python library (pygame, arcade, turtle, etc.)
+    - Technical requirements
+    Keep the design simple and suitable for a beginner-to-intermediate Python implementation.
+    
+    CRITICAL: Do NOT specify any image files (PNG, JPG, etc.) or asset files in the design.
+    The game should use only simple shapes and animations created with pygame.draw functions
+    (rectangles, circles, lines, etc.). Keep it simple with colored shapes only - no external
+    image assets needed.
+    
+    ⚠️⚠️⚠️ CRITICAL: FILE STRUCTURE REQUIREMENT ⚠️⚠️⚠️
+    - In the "Technical Requirements" section, you MUST specify that ALL game code must be in a SINGLE file: game.py
+    - DO NOT design games with multiple files (no snake.py, food.py, constants.py, main.py, ui.py, etc.)
+    - The design MUST state: "All game code must be contained in a single file: game.py"
+    - The design MUST state: "All classes, functions, constants, and game logic must be in game.py"
+    - The design MUST state: "The entire game must be self-contained in game.py"
+    - This ensures the game is immediately runnable with "python game.py"
+    
+    ⚠️⚠️⚠️ CRITICAL: THIS TASK OUTPUTS A .md FILE - WRITE ONLY RAW MARKDOWN CONTENT ⚠️⚠️⚠️
+    
+    The output_file is set to 'games/{game_name}/game_design.md' - this means you are writing
+    DIRECTLY to a markdown file. The system will save EXACTLY what you write. If you write markdown
+    code blocks around the content, they will be saved in the file and break it.
+    
+    ⚠️ FORBIDDEN - DO NOT WRITE THESE:
+    - DO NOT write ```markdown at the start
+    - DO NOT write ``` at the end
+    - DO NOT wrap the entire document in code blocks
+    - DO NOT write any markdown code block markers around the content
+    - DO NOT write explanations like "Here's the design:" or "Save this as..."
+    - DO NOT write any JSON metadata line (for example, a JSON object containing the game name or other configuration) at the start or end of the file
+    - DO NOT write any non-markdown content at start or end
+    
+    ✅ REQUIRED - YOU MUST WRITE:
+    - Line 1: Start directly with "# Title" (first markdown heading) - NO ```markdown, NO JSON, NO metadata
+    - Last line: End with the last line of markdown content - NO ``` closing marker
+    - Everything in between: Only markdown content (headings, lists, text, code examples in blocks)
+    - The file IS markdown, so don't wrap it in ```markdown - just write markdown directly
+    - NO code block wrappers, NO JSON metadata, NO explanatory text
+    
+    IMPORTANT: All files for this game must be saved in the games/{game_name}/ folder.
+  expected_output: >
+    A complete game design document in markdown format with all game specifications,
+    mechanics, and technical requirements clearly defined. The design should NOT mention
+    any image files or assets - only simple shapes and animations.
+    
+    ⚠️⚠️⚠️ CRITICAL FORMAT REQUIREMENTS ⚠️⚠️⚠️
+    - Line 1: Must be "# Title" or first markdown heading (NO ```markdown before it)
+    - Last line: Must be markdown content (NO ``` after it)
+    - The entire file from line 1 to last line must be pure markdown content
+    - NO markdown code block wrappers (NO ```markdown at start, NO ``` at end)
+    - NO explanations, NO introductory text, NO JSON metadata
+    
+    Save it as game_design.md in the games/{game_name}/ folder.
+  agent: game_designer
+
+analyze_design_task:
+  description: >
+    Analyze and understand the game design document to extract key requirements and specifications.
+    
+    This is a focused task that ONLY analyzes the design - it does NOT write any code.
+    The purpose is to fully understand the requirements before implementation.
+    
+    STEP 1: Read the game design document
+    - MANDATORY: Use read_game_design tool with game_name="{game_name}" to read game_design.md
+    - The tool will return the complete contents of games/{game_name}/game_design.md
+    
+    STEP 2: Analyze the design document
+    - Extract and understand all key requirements:
+      * Game genre, type, and core mechanics
+      * Win/lose conditions
+      * Player controls and input methods
+      * Game features and objectives
+      * Technical requirements (library, file structure, etc.)
+      * All game rules and behaviors
+    - Identify critical constraints:
+      * File structure requirements (single game.py file)
+      * No image files - only pygame.draw shapes
+      * No config modules - all constants in game.py
+    - Understand the complete game flow:
+      * Game states (menu, playing, game over, etc.)
+      * Game loop structure
+      * Object interactions and collisions
+      * Scoring and win conditions
+    
+    STEP 3: Create design analysis (optional output)
+    - You may create design_analysis.md to document your understanding
+    - This helps ensure you've fully understood all requirements
+    - Include:
+      * Key requirements summary
+      * Technical constraints
+      * Implementation approach
+      * Critical features to implement
+    
+    CRITICAL REQUIREMENTS:
+    - You MUST read the design document completely
+    - You MUST understand ALL requirements before proceeding
+    - Focus on comprehension - do NOT write any code
+    - Identify any ambiguities or unclear requirements
+    - Ensure you understand the file structure requirement (single game.py)
+    
+    This analysis will be used by the implement_game_task to build the complete game.
+  expected_output: >
+    A clear understanding of the game design requirements and specifications.
+    Optionally, a design_analysis.md file documenting the key requirements, constraints,
+    and implementation approach. The analysis should demonstrate complete comprehension
+    of all design requirements before implementation begins.
+    
+    Save any analysis file as design_analysis.md in the games/{game_name}/ folder (optional).
+  agent: game_developer
+
+implement_game_task:
+  description: >
+    ⚠️⚠️⚠️ CRITICAL: THIS TASK OUTPUTS .py FILES - WRITE ONLY RAW PYTHON CODE ⚠️⚠️⚠️
+    
+    🚨🚨🚨 ABSOLUTE PROHIBITION - NEVER WRITE JSON METADATA 🚨🚨🚨
+    - ❌ NEVER start the file with a standalone JSON object or any non-Python metadata line
+    - ❌ NEVER include any top-level JSON metadata anywhere in the file
+    - ❌ NEVER write ANY JSON metadata - it will cause the file to FAIL evaluation
+    - ❌ NEVER write ANYTHING before "import pygame" - the FIRST character MUST be "i" from "import"
+    - ❌ If you write JSON, the evaluator WILL catch it and you will have to fix it
+    - ✅ The FIRST line MUST be: import pygame (or first import) - NOTHING before it
+    
+    The output_file is set to 'games/{game_name}/game.py' (or other .py files) - this means you are writing
+    DIRECTLY to Python files. The system will save EXACTLY what you write. If you write markdown code blocks
+    or instructions, they will be saved in the file and break it.
+    
+    ⚠️ FORBIDDEN - DO NOT WRITE THESE:
+    - DO NOT write ```python at the start
+    - DO NOT write ``` at the end
+    - DO NOT write any markdown formatting
+    - DO NOT write instructions like "1. Create directory..." or "2. Create file..."
+    - DO NOT write explanations like "Here's the code:" or "Save this as..."
+    - 🚨🚨🚨 ABSOLUTELY FORBIDDEN: DO NOT write any JSON metadata line (for example, a JSON object containing the game name or configuration) at the top or anywhere in the file
+    - 🚨🚨🚨 ABSOLUTELY FORBIDDEN: DO NOT write ANYTHING before the first import statement - NO JSON, NO metadata, NO comments, NOTHING
+    - DO NOT write any non-Python content - ONLY executable Python code
+    - DO NOT write anything except pure Python code
+    - DO NOT import from config modules (e.g., "from config import ..." or "import config")
+    - DO NOT import from modules that don't exist (e.g., "from constants import ..." if constants.py doesn't exist)
+    - DO NOT split code into multiple files unless the design document explicitly requires it
+    
+    ✅ REQUIRED - YOU MUST WRITE:
+    - 🚨🚨🚨 Line 1: MUST start DIRECTLY with "import pygame" (or first import statement) - absolutely no JSON or other metadata line before the first import
+    - 🚨🚨🚨 CRITICAL: The FIRST character on line 1 MUST be the first letter of "import" (the letter "i") - NOTHING before it
+    - 🚨🚨🚨 VALIDATION: Before writing, check: Does your output start with "import"? If not, you have JSON or other text - REMOVE IT
+    - Last line: MUST end with the complete if __name__ == "__main__": main() block - NO JSON, NO metadata, NO incomplete code
+    - ⚠️ CRITICAL: You MUST write the COMPLETE file - include ALL code from imports to the final if __name__ block
+    - ⚠️ CRITICAL: The file MUST be fully executable - include main() function and if __name__ == "__main__": main() at the end
+    - ⚠️⚠️⚠️ CRITICAL: WRITE THE ENTIRE FILE IN ONE GO ⚠️⚠️⚠️
+    - You MUST write the COMPLETE, FULLY FUNCTIONAL game code in a SINGLE output
+    - DO NOT write partial code - write EVERYTHING from start to finish
+    - DO NOT stop mid-way - continue until you reach the final if __name__ == "__main__": main() line
+    - The file MUST be complete and runnable immediately after you write it
+    - Define ALL constants, variables, and configuration directly in the game.py file
+    - Use only standard library imports (sys, os, random, etc.) and pygame
+    - If you need constants (like WINDOW_WIDTH, COLORS, etc.), define them at the top of the file
+    - Keep everything self-contained in game.py unless the design document explicitly requires separate files
+    - Everything in between: Only Python code, no markdown, no explanations, no instructions, NO JSON, NO metadata
+    - The file must contain ONLY executable Python code from line 1 to the last line
+    - ⚠️ DO NOT truncate or leave code incomplete - write the ENTIRE file completely in ONE output
+    
+    STEP 1: Understand the design (already analyzed in analyze_design_task)
+    - The design has already been analyzed in the previous analyze_design_task
+    - You can use read_game_design tool with game_name="{game_name}" to refresh your understanding
+    - If design_analysis.md exists, you can read it to see the key requirements summary
+    - Ensure you understand all requirements before implementing
+    
+    STEP 2: Implement the complete game in ONE GO
+    - ⚠️⚠️⚠️ CRITICAL: Build the ENTIRE game in a SINGLE output ⚠️⚠️⚠️
+    - Write the COMPLETE game.py file from start to finish
+    - Include ALL code: imports, constants, classes, functions, game loop, main()
+    - Do NOT write partial code - write EVERYTHING in one go
+    - ⚠️⚠️⚠️ CRITICAL: ALL CODE MUST BE IN game.py ONLY ⚠️⚠️⚠️
+    - You MUST keep ALL game code in a SINGLE file: game.py
+    - DO NOT split code into multiple files (no snake.py, food.py, constants.py, main.py, ui.py, etc.)
+    - ALL classes, functions, constants, game logic, and the main game loop MUST be in game.py
+    - The entire game must be self-contained in ONE file: game.py
+    - Even if the design document mentions multiple files or a different structure, you MUST consolidate everything into game.py
+    - This ensures simplicity and makes the game immediately runnable with "python game.py"
+    
+    ABSOLUTELY CRITICAL - NO IMAGE FILES:
+    - NEVER load or use any PNG, JPG, or other image files
+    - NEVER use pygame.image.load() or any image loading functions
+    - ALWAYS use pygame.draw functions to create simple shapes (rectangles, circles, lines, polygons)
+    - Use colored shapes for all visual elements - rectangles for game objects, circles for items, etc.
+    - Keep it simple with animations created through drawing functions only
+    
+    ABSOLUTELY CRITICAL - NO CONFIG MODULES:
+    - NEVER import from config modules (e.g., "from config import ..." or "import config")
+    - NEVER import from modules that don't exist (e.g., "from constants import ..." if constants.py doesn't exist)
+    - ALWAYS define ALL constants, variables, and configuration directly in the game.py file
+    - Define all settings at the top of the file: WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE, COLORS, etc.
+    - Keep the game.py file self-contained - everything needed should be in the file itself
+    - Use only standard library imports (sys, os, random, time, etc.) and pygame
+    - ⚠️ CRITICAL: DO NOT create separate files - ALL code MUST be in game.py only
+    - Consolidate all classes, functions, and game logic into the single game.py file
+    
+    Write clean, well-structured Python code that:
+    - Follows the game design specifications EXACTLY, including the file structure
+    - CRITICAL: Implement game mechanics EXACTLY as specified in the design document
+      * If design says "prevent reverse direction", implement it to prevent reverse direction
+      * If design specifies certain class names, use those exact names
+      * If design specifies certain behaviors, implement those exact behaviors
+      * Do not deviate from the design specifications
+    - Uses appropriate Python game library (pygame, arcade, or turtle) as specified in the design
+    - Implements all game mechanics correctly as described in the design
+    - Uses ONLY pygame.draw functions for all visuals (rect, circle, line, polygon, etc.)
+    - Handles user input and game loop properly
+    - Includes proper error handling
+    - Follows Python best practices and coding standards
+    - Is modular and well-commented (but all in one file)
+    - ⚠️ CRITICAL: Creates ONLY game.py - do NOT create multiple files, keep everything in game.py
+    
+    VALIDATION CHECKLIST - BEFORE YOU OUTPUT game.py:
+    - You MUST mentally run through these checks and only output once ALL are satisfied:
+      * Simulate a full playthrough in your head: start → playing → game over → restart. Ensure each transition you imagine is actually implemented in your event loop and state handling.
+      * For every control described in game_design.md (keys, mouse, pause, restart), locate the exact event-handling code in your implementation where that control takes effect.
+      * Confirm scoring rules match the design: when does the score increase, when is it reset, and when (if ever) is any “best / high score” updated.
+      * Verify that all game states described in the design (e.g., READY, PLAYING, PAUSED, GAME_OVER, MENU) exist as variables or constants and are consistently used in your update/draw logic.
+      * Confirm that the main loop actually calls your update and draw functions in the correct order and respects the current game state.
+      * Ensure the entry point is complete: there is a main() function (or equivalent) and an if __name__ == "__main__": main() block, and running "python game.py" would start the game immediately.
+      * Prefer simple, explicit logic over clever abstractions: if a behavior can be written in a straightforward way, choose the simplest correct implementation.
+      * If any part of the design is underspecified, choose the simplest playably-correct behavior and document it with a short, focused comment near the relevant code (NOT as narrative text before imports).
+    - Uses simple colored shapes and animations - NO image files whatsoever
+    - CRITICAL: The code you write will be tested - make sure it matches the design so tests can verify it correctly
+    - ⚠️ CRITICAL: You MUST write the COMPLETE, FULLY FUNCTIONAL code - include:
+      * All imports, constants, classes, functions
+      * Complete game loop with event handling
+      * Complete main() function
+      * Complete if __name__ == "__main__": main() block at the very end
+    - ⚠️ CRITICAL: DO NOT truncate the file - write it COMPLETELY from start to finish
+    - ⚠️ CRITICAL: The file MUST be immediately executable - test in your mind that "python game.py" would work
+  expected_output: >
+    Complete, working Python game file (game.py) that implements all features from the design document.
+    ⚠️ CRITICAL: Create ONLY game.py - do NOT create multiple files. ALL code must be in game.py.
+    The file MUST start with Python code on line 1 and end with Python code on the last line.
+    NO markdown code blocks, NO explanations, NO introductory text, NO markdown formatting.
+    ⚠️ ABSOLUTELY NO JSON metadata or other non-Python metadata lines - ONLY executable Python code.
+    The file MUST start with "import" on line 1 - NO JSON, NO metadata, NOTHING before the first import statement.
+    ⚠️ CRITICAL: The file MUST be COMPLETE and FULLY FUNCTIONAL - include ALL code from imports to the final if __name__ == "__main__": main() block.
+    ⚠️ CRITICAL: DO NOT truncate or leave code incomplete - the file MUST be immediately executable with "python game.py".
+    The code should be production-ready and executable. Save all files in the games/{game_name}/ folder.
+  agent: game_developer
+
+create_requirements_task:
+  description: >
+    After implementing the game, create a requirements.txt file listing all external Python dependencies
+    needed to run the game. This task is performed by the game developer who knows what dependencies
+    the game code uses.
+    
+    STEP 1: Read the game implementation using read_game_code tool
+    - You have access to the read_game_code tool - YOU MUST USE IT FIRST
+    - MANDATORY: Call read_game_code with game_name="{game_name}" to read the game code file
+    - The tool will return the complete contents of game.py
+    - Identify all import statements in the game code
+    - Since all code is in game.py, you only need to check that file
+    
+    STEP 2: Create requirements.txt
+    - Distinguish between built-in Python modules (random, time, sys, os, re, math, etc.) and external packages
+    - Only include external packages that need to be installed via pip (e.g., pygame, arcade, turtle)
+    - Use appropriate version numbers for each package (e.g., pygame==2.5.2)
+    - Do NOT include built-in Python modules in requirements.txt
+    - Common external packages for games: pygame, arcade, turtle
+    - CRITICAL: Write ONLY package names and versions, one per line. Do NOT include any markdown
+      formatting, code blocks, explanations, or other text. The file should contain ONLY package
+      specifications from the first line to the last line.
+    - IMPORTANT: Save the requirements.txt file in the games/{game_name}/ folder.
+  expected_output: >
+    A requirements.txt file containing only external Python package dependencies, one per line,
+    in the format: package==version. The file must contain ONLY package specifications - no markdown,
+    no code blocks, no explanations, no introductory text. Save it as requirements.txt in the
+    games/{game_name}/ folder.
+  agent: game_developer
+
+evaluate_game_task:
+  description: >
+    Evaluate the quality and compliance of the game implementation and design document.
+    
+    Your role is to perform three key evaluations:
+    1. Code Quality Evaluation: Check if game.py contains only Python code
+    2. Design Document Quality Evaluation: Check if game_design.md contains only markdown
+    3. Design Compliance Evaluation: Check if game.py matches game_design.md specifications
+    
+    STEP 1: Read the game files using tools
+    - MANDATORY: Use read_game_design with game_name="{game_name}" to read game_design.md
+    - MANDATORY: Use read_game_code with game_name="{game_name}" to read game.py
+    - DO NOT rely on context - use the tools explicitly
+    
+    STEP 2: Evaluate code quality
+    - MANDATORY: Use code_quality_evaluator tool with game_name="{game_name}"
+    - This tool checks if game.py contains only Python code (no markdown, no JSON, no LLM reasoning)
+    - Review the evaluation report returned by the tool
+    - Note any issues found (markdown blocks, JSON metadata, explanatory text, etc.)
+    
+    STEP 3: Evaluate design document quality
+    - MANDATORY: Use design_quality_evaluator tool with game_name="{game_name}"
+    - This tool checks if game_design.md contains only markdown (no templating, no LLM reasoning)
+    - Review the evaluation report returned by the tool
+    - Note any issues found (JSON metadata, templating variables, LLM reasoning patterns, etc.)
+    
+    STEP 4: Evaluate design compliance
+    - MANDATORY: Use design_compliance_evaluator tool with game_name="{game_name}"
+    - This tool compares game.py implementation against game_design.md specifications
+    - Review the evaluation report returned by the tool
+    - Note any discrepancies between design and implementation
+    
+    STEP 5: Create evaluation report
+    - Create evaluation_report.md that starts directly with the evaluation report content
+    - DO NOT include explanatory text like "Here's the evaluation..." or "I have evaluated..."
+    - Start the markdown file directly with headings (e.g., "# Evaluation Report for {game_name}")
+    - Include sections:
+      1. Code Quality Evaluation (complete output from code_quality_evaluator tool)
+      2. Design Document Quality Evaluation (complete output from design_quality_evaluator tool)
+      3. Design Compliance Evaluation (complete output from design_compliance_evaluator tool)
+      4. Overall Summary and Recommendations
+    - For the summary:
+      * List all issues found across the three evaluations
+      * Provide clear, actionable recommendations for fixing issues
+      * If all checks pass, note that the game meets quality standards
+    - Be specific about issues - mention file names, line numbers if applicable, exact problems found
+    - Provide clear next steps for fixing any issues
+    
+    CRITICAL REQUIREMENTS:
+    - You MUST use all three evaluation tools (code_quality_evaluator, design_quality_evaluator, design_compliance_evaluator)
+    - Copy the tool outputs into your report accurately
+    - Do NOT fabricate evaluation results - use the tool outputs as the source of truth
+    - Report issues clearly and specifically
+    - Provide actionable recommendations
+    
+    CRITICAL FOR evaluation_report.md:
+    - Start directly with evaluation report content - NO introductory text
+    - NO explanations like "Here's the evaluation..." or "I have evaluated..."
+    - NO phrases like "Here's what I found:" or "Let me evaluate..."
+    - Start immediately with headings like "# Evaluation Report for {game_name}"
+    - Contains ONLY markdown text, evaluation results, and analysis
+    - NO Python code blocks unless showing examples of issues
+    - NO explanatory text about what you did - just the evaluation results
+    
+    All files should be saved in the games/{game_name}/ folder.
+  expected_output: >
+    An evaluation_report.md file in markdown format containing:
+    - Complete output from code_quality_evaluator tool
+    - Complete output from design_quality_evaluator tool
+    - Complete output from design_compliance_evaluator tool
+    - Overall summary listing all issues found
+    - Clear, actionable recommendations for fixing any issues
+    
+    CRITICAL FOR evaluation_report.md:
+    - Start directly with evaluation report content - NO introductory or explanatory text
+    - NO phrases like "Here's the evaluation..." or "I have evaluated..."
+    - Start immediately with headings like "# Evaluation Report for {game_name}"
+    - Contains ONLY markdown text, evaluation results, and analysis
+    - NO Python code blocks unless showing examples of issues
+    
+    Save it as evaluation_report.md in the games/{game_name}/ folder.
+  agent: test_engineer
+
+linter_code_task:
+  description: >
+    Check Python syntax and linter errors in game.py file.
+    
+    This is a focused task that ONLY checks if the Python code is syntactically correct.
+    Smaller context = better focus on syntax validation.
+    
+    STEP 1: Read the game code
+    - MANDATORY: Use read_game_code tool with game_name="{game_name}" to read game.py
+    
+    STEP 2: Check Python syntax
+    - MANDATORY: Use code_quality_evaluator tool with game_name="{game_name}"
+    - Focus on the Python syntax validation part of the tool output
+    - Check if the code compiles without syntax errors
+    - Note any syntax errors, indentation issues, or Python linter problems
+    
+    STEP 3: Create linter report
+    - Create linter_report.md that starts directly with the linter results
+    - Include:
+      * Syntax check results
+      * Any Python syntax errors found
+      * Any linter warnings
+      * Overall syntax status (PASS/FAIL)
+    
+    CRITICAL FOR linter_report.md:
+    - Start directly with linter report content - NO introductory text
+    - NO phrases like "Here's the linter report..." or "I have checked..."
+    - Start immediately with headings like "# Python Linter Report for {game_name}"
+    - Contains ONLY markdown text with linter results
+    - NO Python code blocks unless showing syntax errors
+    
+    Save it as linter_report.md in the games/{game_name}/ folder.
+  expected_output: >
+    A linter_report.md file in markdown format containing:
+    - Python syntax check results
+    - Any syntax errors found
+    - Any linter warnings
+    - Overall syntax status (PASS/FAIL)
+    
+    Save it as linter_report.md in the games/{game_name}/ folder.
+  agent: test_engineer
+
+evaluate_code_quality_task:
+  description: >
+    Evaluate code quality of game.py file - check for markdown, JSON, formatting issues.
+    
+    This is a focused task that ONLY checks code quality (markdown blocks, JSON metadata, formatting).
+    It does NOT check Python syntax (that's done by linter_code_task).
+    Smaller context = better focus on code quality validation.
+    
+    STEP 1: Read the game code
+    - MANDATORY: Use read_game_code tool with game_name="{game_name}" to read game.py
+    
+    STEP 2: Evaluate code quality
+    - MANDATORY: Use code_quality_evaluator tool with game_name="{game_name}"
+    - Focus on code quality checks (markdown blocks, JSON metadata, formatting)
+    - Review the evaluation report returned by the tool
+    - Note any issues found (markdown blocks, JSON metadata, explanatory text, etc.)
+    
+    STEP 3: Create code quality report
+    - Create code_quality_report.md that starts directly with the quality results
+    - Include:
+      * Code quality check results
+      * Any markdown blocks found
+      * Any JSON metadata found at the top or bottom of the file
+      * Any formatting issues
+      * Overall quality status (PASS/FAIL)
+    
+    CRITICAL FOR code_quality_report.md:
+    - Start directly with code quality report content - NO introductory text
+    - NO phrases like "Here's the quality report..." or "I have evaluated..."
+    - Start immediately with headings like "# Code Quality Report for {game_name}"
+    - Contains ONLY markdown text with quality results
+    - NO Python code blocks unless showing examples of issues
+    
+    Save it as code_quality_report.md in the games/{game_name}/ folder.
+  expected_output: >
+    A code_quality_report.md file in markdown format containing:
+    - Code quality check results
+    - Any markdown blocks found
+    - Any JSON metadata found
+    - Any formatting issues
+    - Overall quality status (PASS/FAIL)
+    
+    Save it as code_quality_report.md in the games/{game_name}/ folder.
+  agent: test_engineer
+
+evaluate_design_quality_task:
+  description: >
+    Evaluate design document quality of game_design.md file.
+    
+    This is a focused task that ONLY checks if game_design.md contains only markdown (no templating, LLM reasoning, etc.).
+    Smaller context = better focus on design document quality validation.
+    
+    STEP 1: Read the design document
+    - MANDATORY: Use read_game_design tool with game_name="{game_name}" to read game_design.md
+    
+    STEP 2: Evaluate design document quality
+    - MANDATORY: Use design_quality_evaluator tool with game_name="{game_name}"
+    - This tool checks if game_design.md contains only markdown (no templating, LLM reasoning, etc.)
+    - Review the evaluation report returned by the tool
+    - Note any issues found (JSON metadata, templating variables, LLM reasoning patterns, etc.)
+    
+    STEP 3: Create design quality report
+    - Create design_quality_report.md that starts directly with the quality results
+    - Include:
+      * Design document quality check results
+      * Any templating variables found
+      * Any LLM reasoning patterns found
+      * Any JSON metadata found
+      * Overall quality status (PASS/FAIL)
+    
+    CRITICAL FOR design_quality_report.md:
+    - Start directly with design quality report content - NO introductory text
+    - NO phrases like "Here's the quality report..." or "I have evaluated..."
+    - Start immediately with headings like "# Design Document Quality Report for {game_name}"
+    - Contains ONLY markdown text with quality results
+    - NO Python code blocks unless showing examples of issues
+    
+    Save it as design_quality_report.md in the games/{game_name}/ folder.
+  expected_output: >
+    A design_quality_report.md file in markdown format containing:
+    - Design document quality check results
+    - Any templating variables found
+    - Any LLM reasoning patterns found
+    - Any JSON metadata found
+    - Overall quality status (PASS/FAIL)
+    
+    Save it as design_quality_report.md in the games/{game_name}/ folder.
+  agent: test_engineer
+
+evaluate_design_compliance_task:
+  description: >
+    Evaluate design compliance - check if game.py implementation matches game_design.md specifications.
+    
+    This is a focused task that ONLY checks if the implementation matches the design.
+    Smaller context = better focus on design compliance validation.
+    
+    STEP 1: Read both files
+    - MANDATORY: Use read_game_design tool with game_name="{game_name}" to read game_design.md
+    - MANDATORY: Use read_game_code tool with game_name="{game_name}" to read game.py
+    
+    STEP 2: Evaluate design compliance
+    - MANDATORY: Use design_compliance_evaluator tool with game_name="{game_name}"
+    - This tool compares game.py implementation against game_design.md specifications
+    - Review the evaluation report returned by the tool
+    - Note any discrepancies between design and implementation
+    
+    STEP 3: Create compliance report
+    - Create compliance_report.md that starts directly with the compliance results
+    - Include:
+      * Design compliance check results
+      * Any missing features from design
+      * Any mismatches between design and implementation
+      * Overall compliance status (PASS/FAIL)
+    
+    CRITICAL FOR compliance_report.md:
+    - Start directly with compliance report content - NO introductory text
+    - NO phrases like "Here's the compliance report..." or "I have evaluated..."
+    - Start immediately with headings like "# Design Compliance Report for {game_name}"
+    - Contains ONLY markdown text with compliance results
+    - NO Python code blocks unless showing examples of issues
+    
+    Save it as compliance_report.md in the games/{game_name}/ folder.
+  expected_output: >
+    A compliance_report.md file in markdown format containing:
+    - Design compliance check results
+    - Any missing features from design
+    - Any mismatches between design and implementation
+    - Overall compliance status (PASS/FAIL)
+    
+    Save it as compliance_report.md in the games/{game_name}/ folder.
+  agent: test_engineer
+
+compile_evaluation_report_task:
+  description: >
+    Compile all evaluation reports into a single comprehensive evaluation_report.md.
+    
+    This task combines results from:
+    - linter_code_task (linter_report.md)
+    - evaluate_code_quality_task (code_quality_report.md)
+    - evaluate_design_quality_task (design_quality_report.md)
+    - evaluate_design_compliance_task (compliance_report.md)
+    
+    Smaller context = better focus on compiling and summarizing results.
+    
+    STEP 1: Read all evaluation reports
+    - Read linter_report.md from games/{game_name}/ folder
+    - Read code_quality_report.md from games/{game_name}/ folder
+    - Read design_quality_report.md from games/{game_name}/ folder
+    - Read compliance_report.md from games/{game_name}/ folder
+    
+    STEP 2: Compile comprehensive report
+    - Create evaluation_report.md that starts directly with the evaluation report content
+    - DO NOT include explanatory text like "Here's the evaluation..." or "I have compiled..."
+    - Start the markdown file directly with headings (e.g., "# Evaluation Report for {game_name}")
+    - Include sections:
+      1. Python Linter Report (from linter_report.md)
+      2. Code Quality Report (from code_quality_report.md)
+      3. Design Document Quality Report (from design_quality_report.md)
+      4. Design Compliance Report (from compliance_report.md)
+      5. Overall Summary and Recommendations
+    - For the summary:
+      * List all issues found across all four evaluations
+      * Provide clear, actionable recommendations for fixing issues
+      * If all checks pass, note that the game meets quality standards
+    - Be specific about issues - mention file names, line numbers if applicable, exact problems found
+    - Provide clear next steps for fixing any issues
+    
+    CRITICAL REQUIREMENTS:
+    - You MUST read all four report files and include their complete contents
+    - Do NOT fabricate evaluation results - use the report files as the source of truth
+    - Report issues clearly and specifically
+    - Provide actionable recommendations
+    
+    CRITICAL FOR evaluation_report.md:
+    - Start directly with evaluation report content - NO introductory text
+    - NO explanations like "Here's the evaluation..." or "I have compiled..."
+    - NO phrases like "Here's what I found:" or "Let me compile..."
+    - Start immediately with headings like "# Evaluation Report for {game_name}"
+    - Contains ONLY markdown text, evaluation results, and analysis
+    - NO Python code blocks unless showing examples of issues
+    - NO explanatory text about what you did - just the evaluation results
+    
+    Save it as evaluation_report.md in the games/{game_name}/ folder.
+  expected_output: >
+    An evaluation_report.md file in markdown format containing:
+    - Complete Python linter report
+    - Complete code quality report
+    - Complete design document quality report
+    - Complete design compliance report
+    - Overall summary listing all issues found
+    - Clear, actionable recommendations for fixing any issues
+    
+    CRITICAL FOR evaluation_report.md:
+    - Start directly with evaluation report content - NO introductory or explanatory text
+    - NO phrases like "Here's the evaluation..." or "I have compiled..."
+    - Start immediately with headings like "# Evaluation Report for {game_name}"
+    - Contains ONLY markdown text, evaluation results, and analysis
+    - NO Python code blocks unless showing examples of issues
+    
+    Save it as evaluation_report.md in the games/{game_name}/ folder.
+  agent: test_engineer
+
+fix_game_issues_task:
+  description: >
+    Fix specific issues found in the evaluation report. This task is ONLY invoked when the evaluator
+    has identified problems that need to be fixed. The evaluator has identified specific problems
+    that need to be addressed in the game code or design document.
+    
+    ⚠️⚠️⚠️ CRITICAL: This task is ONLY for fixing issues - NOT for initial development ⚠️⚠️⚠️
+    - This task is invoked AFTER evaluation finds issues
+    - Do NOT rewrite the entire game - only fix the specific problems
+    - Preserve all working code - make minimal, targeted changes
+    
+    STEP 1: Read the evaluation report
+    - MANDATORY: Use read_evaluation_report tool with game_name="{game_name}" to read evaluation_report.md
+    - The evaluation report contains detailed information about issues found:
+      * Code Quality issues (markdown blocks, JSON metadata, syntax errors, etc.)
+      * Design Document Quality issues (templating, LLM reasoning, etc.)
+      * Design Compliance issues (mismatches between design and implementation)
+    - Review the "❌ Issues Found" sections carefully
+    - Review the "RECOMMENDATION" sections for each issue type
+    
+    STEP 2: Read the current game files
+    - MANDATORY: Use read_game_design with game_name="{game_name}" to read game_design.md
+    - MANDATORY: Use read_game_code with game_name="{game_name}" to read game.py
+    - ⚠️ CRITICAL: Read the ENTIRE current game.py file - understand ALL the existing code
+    - ⚠️ CRITICAL: Identify which parts of the code are working correctly and should be PRESERVED
+    - Understand what needs to be fixed based on the evaluation report
+    - Map each issue from the evaluation report to the specific location in the code that needs fixing
+    
+    STEP 3: Fix ONLY the specific issues
+    - ⚠️⚠️⚠️ CRITICAL: DO NOT REWRITE THE ENTIRE CODE ⚠️⚠️⚠️
+    - ⚠️⚠️⚠️ CRITICAL: PRESERVE ALL WORKING CODE ⚠️⚠️⚠️
+    - You MUST read the current game.py file completely first
+    - Start with the EXISTING code from the current game.py file
+    - Only make MINIMAL, TARGETED changes to fix the specific issues
+    - DO NOT delete working code - only modify what needs to be fixed
+    - DO NOT rewrite the entire game - only fix the problems mentioned in the evaluation report
+    - For each issue in the evaluation report:
+      * Find the exact location in the code where the issue exists
+      * Make the MINIMAL change needed to fix that specific issue
+      * Keep all other code unchanged
+    - For code quality issues:
+      * If issue is "markdown code blocks" - remove ONLY the ```python and ``` markers, keep all code
+      * 🚨🚨🚨 If issue is "JSON metadata" - remove ONLY the standalone JSON metadata line at the top of the file, keep all imports and code
+      * 🚨🚨🚨 CRITICAL: If evaluation report says "JSON metadata at file start" or "Line 1 contains JSON metadata" - DELETE line 1 completely, ensure the file now starts with "import pygame"
+      * 🚨🚨🚨 CRITICAL: After removing JSON, verify the FIRST line is "import pygame" (or first import) - NOTHING before it
+      * If issue is "explanatory text before imports" - remove ONLY the explanatory text, keep all imports and code
+      * If issue is "syntax error" - fix ONLY the syntax error, keep all other code unchanged
+      * If issue is "incomplete code" - complete ONLY the incomplete part, keep all existing code
+    - For design document quality issues:
+      * Remove ONLY the markdown code block wrappers (```markdown, ```) if present
+      * Remove ONLY templating variables if present
+      * Keep all other markdown content unchanged
+    - For design compliance issues:
+      * Make MINIMAL changes to match design - only add missing features or fix mismatches
+      * DO NOT rewrite working code - only add what's missing or fix what's wrong
+    - ⚠️ CRITICAL: Preserve ALL working code - only fix the specific problems mentioned
+    - ⚠️ CRITICAL: After fixing, the file must still be complete and runnable
+    
+    CRITICAL REQUIREMENTS:
+    - ⚠️⚠️⚠️ CRITICAL: MINIMAL FIXES ONLY - DO NOT REWRITE ⚠️⚠️⚠️
+    - Read the current game.py file completely first
+    - Fix ONLY the specific issues mentioned in the evaluation report
+    - Preserve ALL existing working code - do NOT delete or rewrite working parts
+    - Make MINIMAL, TARGETED changes - only fix what's broken, keep what works
+    - After fixing, the files should pass all three evaluations:
+      * Code Quality Evaluation (no markdown, no JSON, only Python code)
+      * Design Document Quality Evaluation (only markdown, no templating)
+      * Design Compliance Evaluation (implementation matches design)
+    - Write the fixed files back to the same locations
+    - DO NOT introduce new issues while fixing existing ones
+    - ⚠️ CRITICAL: The fixed file must still be complete and runnable - include ALL code from imports to if __name__ block
+    
+    ⚠️⚠️⚠️ CRITICAL FORMATTING RULES ⚠️⚠️⚠️
+    When fixing game.py:
+    - ⚠️ CRITICAL: Read the current game.py file FIRST - do NOT start from scratch
+    - ⚠️ CRITICAL: Preserve ALL existing working code - only fix the specific issues
+    - 🚨🚨🚨 Line 1: MUST start directly with "import pygame" (or first import) - NO JSON or other metadata line, NO comments, NO text
+    - 🚨🚨🚨 If the current file starts with a standalone JSON metadata line, DELETE that line - the file must start with "import"
+    - 🚨🚨🚨 VALIDATION: After fixing, verify line 1 starts with "import" - if not, you still have JSON or other text
+    - Last line: MUST end with the complete if __name__ == "__main__": main() block - NO JSON, NO metadata, NO incomplete code
+    - ⚠️ CRITICAL: You MUST write the COMPLETE file - include ALL code from the original file plus your fixes
+    - ⚠️ CRITICAL: Include ALL necessary code: imports, constants, classes, functions, game loop, main() function, and if __name__ block
+    - Everything in between: ONLY Python code - no markdown, no explanations, no JSON
+    - ⚠️ CRITICAL: After fixing issues, the file must be COMPLETE and runnable - do NOT truncate
+    
+    When fixing game_design.md:
+    - Line 1: MUST start directly with "# Title" - NO ```markdown, NO JSON
+    - Last line: MUST end with markdown content - NO ```
+    - Everything in between: ONLY markdown content
+  expected_output: >
+    Fixed game files (game.py and/or game_design.md) with all issues from the evaluation report resolved.
+    The files should now pass all quality and compliance checks.
+    ⚠️ CRITICAL: game.py MUST be COMPLETE and FULLY FUNCTIONAL - include ALL code from imports to the final if __name__ == "__main__": main() block.
+    ⚠️ CRITICAL: DO NOT truncate the file - write it COMPLETELY. The file MUST be immediately executable with "python game.py".
+    ⚠️ CRITICAL: Only fix the SPECIFIC issues mentioned - preserve all working code, do NOT rewrite everything.
+    NO markdown, NO JSON, NO explanatory text - ONLY executable Python code from line 1 to the last line.
+    Save the fixed files in the games/{game_name}/ folder.
+  agent: game_developer
+
+publish_game_task:
+  description: >
+    Prepare the game for publication by reviewing all previous work and creating comprehensive documentation.
+    
+    STEP 1: Review all previous work from context
+    - The game design document is available in the context from design_game_task
+    - The design analysis is available in the context from analyze_design_task
+    - The game implementation is available in the context from implement_game_task
+    - The requirements.txt is available in the context from create_requirements_task
+    - The evaluation report is available in the context from compile_evaluation_report_task
+    - Review all these to understand the complete game package
+    
+    STEP 2: Create comprehensive README.md
+    - Create a comprehensive README.md file with:
+      * Game description (from design document)
+      * Installation instructions (including requirements.txt)
+      * How to play (controls, objectives, rules from design document)
+      * Game features (from design document)
+      * Requirements (from requirements.txt)
+      * Evaluation summary (from evaluation_report.md)
+      * Any known issues or limitations
+    - Ensure the game is polished and ready for players
+    - IMPORTANT: Save the README.md file in the games/{game_name}/ folder.
+    - All game files should be in the games/{game_name}/ folder.
+  expected_output: >
+    A complete game package including:
+    - The final game Python file (game.py)
+    - README.md with full documentation
+    - Release notes
+    - Any additional files needed for distribution
+    All files should be properly formatted and ready for publication. Save README.md
+    in the games/{game_name}/ folder.
+  agent: game_publisher
